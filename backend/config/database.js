@@ -4,7 +4,7 @@ const connectDB = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "",
-  database: "bus_rev",
+  database: "bus_res",
 });
 
-module.exports = connectDB;
+module.exports = connectDB.promise();
