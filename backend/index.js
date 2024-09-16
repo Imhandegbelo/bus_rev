@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/user", require("./routes/userRoute"))
-// app.use("/api/buses")
+app.use("/api/cars", require("./routes/carRoute"))
 // app.use("/api/reservations")
 // app.use("/api/payments")
 

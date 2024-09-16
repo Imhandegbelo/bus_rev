@@ -40,12 +40,6 @@ const loginUser = asyncHandler(async (req, res) => {
 
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
-      //   res.json({
-      //     id: user.id,
-      //     name: user.name,
-      //     email: user.email,
-      //     token: token
-      //   });
       // res.json({ message: "User login successful", token });
     }
 
@@ -58,8 +52,11 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 
     res.status(200).json({
-      message: "Login successful",
-      token,
+      id: userRecord.id,
+      name: userRecord.name,
+      email: userRecord.email,
+      phone_number: userRecord.phone_number,
+      token: token,
     });
   } catch (error) {
     console.log(error);
@@ -74,7 +71,7 @@ const loginUser = asyncHandler(async (req, res) => {
  * @By - George Imhandegbelo
  */
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, phone_number, password } = req.body;
+  const { name, email, phone_number, password, role="PASSENGER" } = req.body;
 
   if (!email) {
     res.status(400);
@@ -89,6 +86,10 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("Phone number is required");
   }
   if (!password) {
+    res.status(400);
+    throw new Error("Password is required");
+  }
+  if (!role) {
     res.status(400);
     throw new Error("Password is required");
   }
@@ -130,8 +131,8 @@ const registerUser = asyncHandler(async (req, res) => {
  * @access Private
  * @By George Imhandegbelo
  */
-const getMe = asyncHandler(async (req,res)=>{
-    res.status(200).json(req.user)
-})
+const getMe = asyncHandler(async (req, res) => {
+  res.status(200).json(req.user);
+});
 
 module.exports = { loginUser, registerUser, getMe };
