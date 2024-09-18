@@ -60,12 +60,12 @@ const updateCars = asyncHandler(async (req, res) => {
       [car_number, capacity, id]
     );
 
-    if (result.affectedRows === 0){
-        res.status(404).json({message:'Bus not found or no change made'})
+    if (result.affectedRows === 0) {
+      res.status(404).json({ message: "Bus not found or no change made" });
     }
   } catch (error) {
-    console.log(error)
-    res.status(500).json({message: `Server error: ${error}`})
+    console.log(error);
+    res.status(500).json({ message: `Server error: ${error}` });
   }
 });
 
@@ -79,27 +79,34 @@ const getCarById = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [result] = await connect.query("SELECT * FROM cars WHERE id = ?", [id]);
+    const [result] = await connect.query("SELECT * FROM cars WHERE id = ?", [
+      id,
+    ]);
     if (result.length === 0) {
       return res.status(404).json({ message: "Car not found" });
     }
+    const car = result[0];
+    res.status(200).json({
+      id: car.id,
+      car_number: car.car_number,
+      capacity: car.capacity,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: `Server error: ${error}` });
   }
 });
 
+const deleteCar = asyncHandler(async (req, res) => {
+  const { id } = req.params;
 
-const deleteCar = asyncHandler(async(req,res)=>{
-    const {id} = req.params
-
-try {
-    const [result] = await connect.query('DELETE FROM cars WHERE id = ?', [id])
-} catch (error) {
-    console.log(error)
+  try {
+    const [result] = await connect.query("DELETE FROM cars WHERE id = ?", [id]);
+    res.status(200).json({ message: "Delete successful" });
+  } catch (error) {
+    console.log(error);
     res.status(500).json({ message: `Server error: ${error}` });
-}
-
-})
+  }
+});
 
 module.exports = { deleteCar, addCars, getCars, getCarById, updateCars };

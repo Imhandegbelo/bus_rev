@@ -8,11 +8,12 @@ const {
   getCarById,
   updateCars,
 } = require("../controller/carController");
+const { requireRole } = require("../middleware/roleMiddleware");
 
-router.get("/", protect, getCars);
-router.get("/:id", protect, getCarById)
-router.post("/", protect, addCars);
-router.put("/:id", protect, updateCars);
-router.delete("/:id", protect, deleteCar);
+router.get("/", requireRole('ADMIN'), getCars);
+router.get("/:id", requireRole('ADMIN'), getCarById)
+router.post("/", requireRole('ADMIN'), addCars);
+router.put("/:id", requireRole('ADMIN'), updateCars);
+router.delete("/:id", requireRole('ADMIN'), deleteCar);
 
 module.exports = router;

@@ -44,7 +44,7 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: userRecord.id, email: userRecord.email },
+      { id: userRecord.id, email: userRecord.email, role: userRecord.role },
       JWT_SECRET,
       {
         expiresIn: "15min",
@@ -56,6 +56,7 @@ const loginUser = asyncHandler(async (req, res) => {
       name: userRecord.name,
       email: userRecord.email,
       phone_number: userRecord.phone_number,
+      role: userRecord.role,
       token: token,
     });
   } catch (error) {
@@ -114,7 +115,7 @@ const registerUser = asyncHandler(async (req, res) => {
       [name, email, hashed_pass, phone_number]
     );
 
-    const token = jwt.sign({ id: result.insertId, email }, JWT_SECRET, {
+    const token = jwt.sign({ id: result.insertId, email, role }, JWT_SECRET, {
       expiresIn: "15min",
     });
 
