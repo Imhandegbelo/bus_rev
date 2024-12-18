@@ -10,7 +10,6 @@ import { useState } from "react";
  * @maxWidth set to empty string fill up entire space.
  * Width must conform to tailwind styling. Default value "max-w-[335px]"
  * @onChange onchange handler
- * @onBlur function that fies when focus leaves input
  * @otherProps Added props (optional)
  */
 
@@ -21,7 +20,6 @@ export default function Input({
   value,
   maxWidth = "max-w-[335px]",
   onChange,
-  onBlur,
   ...otherProps
 }) {
   const [inputValue, setInputValue] = useState(value || "");
@@ -31,7 +29,6 @@ export default function Input({
       <input
         type={type}
         value={value || inputValue}
-        onBlur={onBlur}
         onChange={(e) => {
           setInputValue(e.target.value);
           onChange && onChange(e.target.value);

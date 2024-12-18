@@ -14,9 +14,9 @@ connectDB.getConnection((err, connection) => {
   }
 });
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/user", require("./routes/userRoute"))
 app.use("/api/cars", require("./routes/carRoute"))

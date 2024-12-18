@@ -29,9 +29,13 @@ export default function Login() {
     }
 
     // if successful or user is found
-    // navigate to dashboard
+    // navigate to dashboard based on user role
     if (isSuccess || user) {
-      navigate("/");
+      if (user.role == "PASSENGER") {
+        navigate("/user/dashboard");
+      } else if (user.role == "ADMIN") {
+        navigate("/admin/dashboard");
+      }
     }
     dispatch(reset());
   }, [message, isError, isSuccess, isLoading, navigate, dispatch]);
@@ -56,7 +60,9 @@ export default function Login() {
           <div className="text-white text-center">
             <h2 className="text-4xl font-bold">Welcome Back</h2>
             <p className="md:mb-20 mt-4 w-10/12 mx-auto">
-              To book a reservation Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, iste iure? Aut, voluptate. Dolorum, aut ea laborum neque nam corporis. 
+              To book a reservation Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Dignissimos, iste iure? Aut, voluptate. Dolorum,
+              aut ea laborum neque nam corporis.
             </p>
             <Link
               to="/register"
@@ -74,9 +80,7 @@ export default function Login() {
               <h1 className="font-bold text-4xl text-sky-500 tracking-[2px]">
                 Login
               </h1>
-              <p className="text-sky-900 mb-10">
-                Login to start setting goals
-              </p>
+              <p className="text-sky-900 mb-10">Login to start setting goals</p>
               <form onSubmit={handleSubmit}>
                 <div className="my-3">
                   <input

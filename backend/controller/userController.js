@@ -58,6 +58,7 @@ const loginUser = asyncHandler(async (req, res) => {
       phone_number: userRecord.phone_number,
       role: userRecord.role,
       token: token,
+      message: "Login successful"
     });
   } catch (error) {
     console.log(error);
@@ -72,7 +73,7 @@ const loginUser = asyncHandler(async (req, res) => {
  * @By - George Imhandegbelo
  */
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, phone_number, password, role="PASSENGER" } = req.body;
+  const { name, email, phone_number, password, role = "PASSENGER" } = req.body;
 
   if (!email) {
     res.status(400);
@@ -115,11 +116,23 @@ const registerUser = asyncHandler(async (req, res) => {
       [name, email, hashed_pass, phone_number]
     );
 
+    const userRecord = result[0];
+
     const token = jwt.sign({ id: result.insertId, email, role }, JWT_SECRET, {
       expiresIn: "15min",
     });
 
-    res.status(201).json({ message: "User registered successfully", token });
+    res
+      .status(201)
+      .json({
+        message: "User registered successfully",
+        id: userRecord.id,
+        name: userRecord.name,
+        email: userRecord.email,
+        phone_number: userRecord.phone_number,
+        role: userRecord.role,
+        token: token,
+      });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error, please try again" });
